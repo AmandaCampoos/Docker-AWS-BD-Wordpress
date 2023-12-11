@@ -28,8 +28,36 @@ e voltar ao seu terminal usado anteriormente ;
 com esse comando voce tambem encerra o container ele não esta mais em execuçao.
 
 
-Configurando o Docker para se comunicar na rede;
+<h1>Configurando o Docker para se comunicar na rede; </h1>
+para isso precisamos dar stop no docker 
 
+service docker stop
 
+e com o ip da sua máquina inicializar dessa forma:
+```
+dockerd -H tcp://192.166.1.6:2375
+```
+
+Vamos instalar o docker em CentOs (será usado para fazer uma comunitação com a rede e outra VM).
+```
+yum install -y docker
+
+```
+com o docker já instalado e ativo 
+
+digite o camando 
+```
+export DOCKER_HOST='tcp://192.166.1.6:2375'
+```
+agora o na máquina Centos é possivel acessar o host da máquina Ubuntu
+ou sejá houve a comunicação pela rede.
+Para analisarmos melhor 
+```
+docker info
+```
+Informaçoes sobre os container e detalhes do Docker configurado. é dessa forma que você configura para expor atravez da rede e para acessar atravéz da rede.
+Nesse caso é apenas testes , medidas de segurança deve ser levadas em consideração em um ambiante de produção pois isso disponibiliza o docker em uma porta de rede e permite que qualquer pessoa se conecte a ele.
+
+<h1> Executando nosso primeiro Contêiner </h1>
 
  
