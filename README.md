@@ -1,6 +1,10 @@
 # Docker
 Documentação para inicializar o Docker.
 
+
+
+
+
 Para visualizar a instação e ver a versão em sua máquina.
 
 ```docker -v
@@ -37,6 +41,15 @@ e com o ip da sua máquina inicializar dessa forma:
 ```
 dockerd -H tcp://192.166.1.6:2375
 ```
+para listar os conteiner execultados:
+
+docker ps -a
+sempre que quiser incializar com o conteiner criado
+docker start (ID_do_conteiner)
+para usar o terminal dele
+docker attach (ID_do_conteiner)
+
+
 
 Vamos instalar o docker em CentOs (será usado para fazer uma comunitação com a rede e outra VM).
 ```
