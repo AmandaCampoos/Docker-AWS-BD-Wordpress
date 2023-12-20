@@ -1,10 +1,7 @@
 # Docker
-Documentação para inicializar o Docker.
 
-
-
-
-
+Documentação para inicializar o Docker
+Para inciar vamos instalar o Docker na máquina e vou deixar alguns comandos essenciais no docker.
 Para visualizar a instação e ver a versão em sua máquina.
 
 ```docker -v
@@ -71,6 +68,103 @@ docker info
 Informaçoes sobre os container e detalhes do Docker configurado. é dessa forma que você configura para expor atravez da rede e para acessar atravéz da rede.
 Nesse caso é apenas testes , medidas de segurança deve ser levadas em consideração em um ambiante de produção pois isso disponibiliza o docker em uma porta de rede e permite que qualquer pessoa se conecte a ele.
 
-<h1> Executando nosso primeiro Contêiner </h1>
+# Docker Compose
+
+
+Para instalar o Docker Compose Ubuntu seguindo a documentação oficial.
+curl -L "https://github.com/docker/compose/releases/download/1.25.0/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
+Para dar permissao de usuario
+chmod +x /usr/local/bin/docker-compose
+Arquivos de cinfigurações:
+vamos criar um diretório mkdir docker-compose , dentro desse diretório vamos criar uma arquivo de configuração
+vim docker-compose.yml
+esse arquivo vai ter as configuraçoes de inicialização do nosso docker 
+difinição de qual será exposta , banco de dados e wordpress, nesse caso será oque será inicializado no nosso conteiner.
+é essa é nossa base
+```
+version: '3.4'
+services:
+  db:
+    image: mysql:5.7.22
+    command: mysqld --default_authentication_plugin=mysql_native_password
+    ports:
+      - "3308:3306"      
+  wordpress:
+    image: wordpress:latest
+    ports:
+      - 80:80
+    depends_on:
+      - db
+```
+agora vamos definir varáveis de ambientes, volumes
+```
+services:
+  db:
+    image: mysql:5.7.22
+    command: mysqld --default_authentication_plugin=mysql_native_password
+    environment:
+      TZ: America/Sao_Paulo
+      MYSQL_ROOT_PASSWORD: docker
+      MYSQL_USER: docker
+      MYSQL_PASSWORD: docker
+      MYSQL_DATABASE: wordpress
+    ports:
+      - "3308:3306"
+  wordpress:
+    image: wordpress:latest
+    ports:
+      - 80:80
+    volumes:
+      - ./config/php.conf.uploads.ini:/usr/local/etc/php/conf.d/uploads.ini
+      - ./wp-app:/var/www/html
+    environment:
+      TZ: America/Sao_Paulo
+      WORDPRESS_DB_HOST: db
+      WORDPRESS_DB_NAME: wordpress
+      WORDPRESS_DB_USER: root
+      WORDPRESS_DB_PASSWORD: docker
+    depends_on:
+      - db
+```
+o mesmo arquivo vamos modificar e acrescenatar as configuraçoes de rede:
+```
+version: '3.4'
+
+services:
+  db:
+    image: mysql:5.7.22
+    command: mysqld --default_authentication_plugin=mysql_native_password
+    environment:
+      TZ: America/Sao_Paulo
+      MYSQL_ROOT_PASSWORD: docker
+      MYSQL_USER: docker
+      MYSQL_PASSWORD: docker
+      MYSQL_DATABASE: wordpress
+    ports:
+      - "3308:3306"
+    networks:
+      - wordpress-network
+  wordpress:
+    image: wordpress:latest
+    ports:
+      - 80:80
+    volumes:
+      - ./config/php.conf.uploads.ini:/usr/local/etc/php/conf.d/uploads.ini
+      - ./wp-app:/var/www/html
+    environment:
+      TZ: America/Sao_Paulo
+      WORDPRESS_DB_HOST: db
+      WORDPRESS_DB_NAME: wordpress
+      WORDPRESS_DB_USER: root
+      WORDPRESS_DB_PASSWORD: docker
+    depends_on:
+      - db
+    networks:
+      - wordpress-network
+networks:
+    wordpress-network:
+      driver: bridge
+```
+
 
  
