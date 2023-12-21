@@ -69,7 +69,7 @@ Informaçoes sobre os container e detalhes do Docker configurado. é dessa forma
 Nesse caso é apenas testes , medidas de segurança deve ser levadas em consideração em um ambiante de produção pois isso disponibiliza o docker em uma porta de rede e permite que qualquer pessoa se conecte a ele.
 
 # Docker Compose
-
+Essa ferramenta é usada para unir dois ou mais contêines para subir uma aplicação específica. 
 
 Para instalar o Docker Compose Ubuntu seguindo a documentação oficial.
 curl -L "https://github.com/docker/compose/releases/download/1.25.0/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
@@ -165,6 +165,13 @@ networks:
     wordpress-network:
       driver: bridge
 ```
+vamos salvar o arquivo usando WQ! para salvar
+para executar 
+```
+docker-compose
+```
+ou seja mesmo que mão tivemos a imagem criada , com esse comando no docker composer ele fará todo o processo ele sobre toda infraestrutura que a gente definiu no arquivo com isso é possivel verificar o seu localhost e já estará na página do wordpress.
+
 
 
  
