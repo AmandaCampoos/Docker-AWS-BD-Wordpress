@@ -1,15 +1,16 @@
 # Docker
+Vamos instalar o docker 
+```
+yum install -y docker
 
-Documentação para inicializar o Docker
-Para inciar vamos instalar o Docker na máquina e vou deixar alguns comandos essenciais no docker.
-Para visualizar a instação e ver a versão em sua máquina.
-
+```
+comandos úteis no docker:
 ```docker -v
    docker info
 ```
 Para olhar os programas rodadando na sua máquina
- ls -l /run
- Para visualizar os grupo existente e para poder adicionar usuarios no Docker sem precisar estar na conta root, Apenas com o comando sudo.
+ls -l /run
+Para visualizar os grupo existente e para poder adicionar usuarios no Docker sem precisar estar na conta root, Apenas com o comando sudo.
 cat /etc/group
 
 Adicionarando o usuario Amanda 
@@ -23,63 +24,41 @@ docker run -it ubuntu /bin/bash
 ```
 com esse comando voce sera logado ao terminal da máquina criada e para sair 
 e voltar ao seu terminal usado anteriormente ;
-
- exit
-
-com esse comando voce tambem encerra o container ele não esta mais em execuçao.
-
-
-<h1>Configurando o Docker para se comunicar na rede; </h1>
-para isso precisamos dar stop no docker 
-
-service docker stop
-
-e com o ip da sua máquina inicializar dessa forma:
 ```
-dockerd -H tcp://192.166.1.6:2375
+exit
 ```
-para listar os conteiner execultados:
+com esse comando você tambem encerrar o container ele não esta mais em execução.
 
-docker ps -a
-sempre que quiser incializar com o conteiner criado
+Sempre que quiser incializar com o conteiner criado.
+```
 docker start (ID_do_conteiner)
-para usar o terminal dele
+```
+Para usar o terminal dele.
+```
 docker attach (ID_do_conteiner)
-
-
-
-Vamos instalar o docker em CentOs (será usado para fazer uma comunitação com a rede e outra VM).
 ```
-yum install -y docker
-
-```
-com o docker já instalado e ativo 
-
-digite o camando 
-```
-export DOCKER_HOST='tcp://192.166.1.6:2375'
-```
-agora o na máquina Centos é possivel acessar o host da máquina Ubuntu
-ou sejá houve a comunicação pela rede.
-Para analisarmos melhor 
-```
-docker info
-```
-Informaçoes sobre os container e detalhes do Docker configurado. é dessa forma que você configura para expor atravez da rede e para acessar atravéz da rede.
-Nesse caso é apenas testes , medidas de segurança deve ser levadas em consideração em um ambiante de produção pois isso disponibiliza o docker em uma porta de rede e permite que qualquer pessoa se conecte a ele.
 
 # Docker Compose
+
 Essa ferramenta é usada para unir dois ou mais contêines para subir uma aplicação específica. 
 
 Para instalar o Docker Compose Ubuntu seguindo a documentação oficial.
+```
 curl -L "https://github.com/docker/compose/releases/download/1.25.0/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
-Para dar permissao de usuario
+```
+Para dar permissao de usuario:
+```
 chmod +x /usr/local/bin/docker-compose
+```
+O docker compose basicamente segue um arquivo de configuração , que especificar oque ele tem que fazer e inicia automaticamente as imagens que lhe foi especificado no documento, tornando mais simples na hora de usar o docker para subir aplicações.
+
 Arquivos de cinfigurações:
-vamos criar um diretório mkdir docker-compose , dentro desse diretório vamos criar uma arquivo de configuração
+
+vamos criar um diretório mkdir docker-compose  dentro desse diretório vamos criar uma arquivo de configuração
+```
 vim docker-compose.yml
-esse arquivo vai ter as configuraçoes de inicialização do nosso docker 
-difinição de qual será exposta , banco de dados e wordpress, nesse caso será oque será inicializado no nosso conteiner.
+```
+esse arquivo vai ter as configuraçoes de inicialização da aplicação com banco de dados e wordpress.
 é essa é nossa base
 ```
 version: '3.4'
@@ -170,7 +149,7 @@ para executar
 ```
 docker-compose
 ```
-ou seja mesmo que mão tivemos a imagem criada , com esse comando no docker composer ele fará todo o processo ele sobre toda infraestrutura que a gente definiu no arquivo com isso é possivel verificar o seu localhost e já estará na página do wordpress.
+ou seja mesmo que mão tivemos a imagem criada , com esse comando no docker composer ele fará todo o processo ele sobe toda infraestrutura que a gente definiu no arquivo com isso é possivel verificar o seu localhost e já estará na página do wordpress.
 
 
 
