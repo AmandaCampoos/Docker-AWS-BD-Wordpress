@@ -26,6 +26,45 @@ Wordpress.
 # Docker
 ![awesome-compose](https://github.com/AmandaCampoos/Docker/assets/138727208/89fe560b-57bf-4ee0-ab2b-90aee7f8b23c)
 
+Ponto adicional para o trabalho utilizar
+a instalação via script de Start Instance
+(user_data.sh).
+
+```
+#!/bin/bash
+yum update -y
+
+yum install docker -y
+#iniciar
+systemctl start docker.service
+#iniciar automaticamente
+systemctl enable docker.service
+
+#Instalação do docker-compose
+curl -L "https://github.com/docker/compose/releases/download/1.26.0/docker-compose-$(uname -s)-$(uname -m)" -o /usr/bin/docker-compose
+#permissao
+chmod +x /usr/bin/docker-compose
+
+#instalar o NFS e montar um sistema de arquivos EFS
+yum install nfs-utils -y
+systemctl start nfs-utils.service
+systemctl enable nfs-utils.service
+mkdir -p /efs
+
+mount -t nfs4 -o nfsvers=4.1,rsize=1048576,wsize=1048576,hard,timeo=600,retrans=2,noresvport=fs-0a87eb8f6b5170cfe.efs.us-east-1.amazonaws.com:/ /efs
+
+~                                                                                                                                                 
+~                                                                                                                                                 
+~                                                                                                                                                 
+~                                                                                                                                                 
+~                                                                                                                                                 
+~                                                                                                                                                 
+~                                                                                                                                                 
+"user_data.sh" 22L, 671B 
+```
+
+
+
 
 Vamos instalar o docker 
 ```
