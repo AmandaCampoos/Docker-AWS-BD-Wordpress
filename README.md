@@ -1,4 +1,7 @@
 # Docker
+![awesome-compose](https://github.com/AmandaCampoos/Docker/assets/138727208/89fe560b-57bf-4ee0-ab2b-90aee7f8b23c)
+
+
 Vamos instalar o docker 
 ```
 yum install -y docker
