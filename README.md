@@ -20,6 +20,31 @@ de aplicação Wordpress
 Balancer AWS para a aplicação
 Wordpress.
 
+# AWS 
+Configurações na console da aws necessárias para essa atividade.
+Primeiro vamos definir grupo de segurança.
+<br/> 
+ Instacincias 
+```
+|80| |HTTP| |TCP|	| SG-Público| 
+|22| |SSH | |TCp|	| SG-Público|
+```
+<br /> 
+RDB
+ <br /> 
+3306	MySQL/Aurora	TCP	SG-Privado
+<br /> 
+ELB
+<br /> 
+80	HTTP	TCP	0.0.0.0/0 <br /> 
+22	SSH	TCP	0.0.0.0/0
+<br /> 
+EFS
+<br /> 
+2209	NFS	TCP	SG-Privado
+<br /> 
+
+
 
 
 
@@ -52,29 +77,19 @@ systemctl enable nfs-utils.service
 mkdir -p /efs
 
 mount -t nfs4 -o nfsvers=4.1,rsize=1048576,wsize=1048576,hard,timeo=600,retrans=2,noresvport=fs-0a87eb8f6b5170cfe.efs.us-east-1.amazonaws.com:/ /efs
-
-~                                                                                                                                                 
-~                                                                                                                                                 
-~                                                                                                                                                 
-~                                                                                                                                                 
-~                                                                                                                                                 
-~                                                                                                                                                 
-~                                                                                                                                                 
+                                                                  
 "user_data.sh" 22L, 671B 
 ```
 
-
-
-
-Vamos instalar o docker 
+Usamos o comando para dar permissão para o arquivo:
 ```
-yum install -y docker
+chmod +x user_data.sh
+```
+Após, exemplo de pesquisa para ver a versão:
 
-```
-comandos úteis no docker:
-```docker -v
-   docker info
-```
+![Captura de tela de 2023-12-28 12-08-31](https://github.com/AmandaCampoos/Docker/assets/138727208/bfd30e0d-8b7d-4647-82ef-83e1863b056c)
+
+
 Para olhar os programas rodadando na sua máquina
 ls -l /run
 Para visualizar os grupo existente e para poder adicionar usuarios no Docker sem precisar estar na conta root, Apenas com o comando sudo.
@@ -85,25 +100,8 @@ Adicionarando o usuario Amanda
 root@amanda-desktop:~# sudo gpasswd -a amanda docker
 Adicionando usuário amanda ao grupo docker
 ```
-Para Incializar o container 
-```
-docker run -it ubuntu /bin/bash
-```
-com esse comando voce sera logado ao terminal da máquina criada e para sair 
-e voltar ao seu terminal usado anteriormente ;
-```
-exit
-```
-com esse comando você tambem encerrar o container ele não esta mais em execução.
 
-Sempre que quiser incializar com o conteiner criado.
-```
-docker start (ID_do_conteiner)
-```
-Para usar o terminal dele.
-```
 docker attach (ID_do_conteiner)
-```
 
 # Docker Compose
 
@@ -121,96 +119,16 @@ O docker compose basicamente segue um arquivo de configuração , que especifica
 
 Arquivos de cinfigurações:
 
-vamos criar um diretório mkdir docker-compose  dentro desse diretório vamos criar uma arquivo de configuração
+vamos criar um diretório efs dentro desse diretório vamos criar uma arquivo de configuração
 ```
 vim docker-compose.yml
 ```
+
 esse arquivo vai ter as configuraçoes de inicialização da aplicação com banco de dados e wordpress.
 é essa é nossa base
-```
-version: '3.4'
-services:
-  db:
-    image: mysql:5.7.22
-    command: mysqld --default_authentication_plugin=mysql_native_password
-    ports:
-      - "3308:3306"      
-  wordpress:
-    image: wordpress:latest
-    ports:
-      - 80:80
-    depends_on:
-      - db
-```
-agora vamos definir varáveis de ambientes, volumes
-```
-services:
-  db:
-    image: mysql:5.7.22
-    command: mysqld --default_authentication_plugin=mysql_native_password
-    environment:
-      TZ: America/Sao_Paulo
-      MYSQL_ROOT_PASSWORD: docker
-      MYSQL_USER: docker
-      MYSQL_PASSWORD: docker
-      MYSQL_DATABASE: wordpress
-    ports:
-      - "3308:3306"
-  wordpress:
-    image: wordpress:latest
-    ports:
-      - 80:80
-    volumes:
-      - ./config/php.conf.uploads.ini:/usr/local/etc/php/conf.d/uploads.ini
-      - ./wp-app:/var/www/html
-    environment:
-      TZ: America/Sao_Paulo
-      WORDPRESS_DB_HOST: db
-      WORDPRESS_DB_NAME: wordpress
-      WORDPRESS_DB_USER: root
-      WORDPRESS_DB_PASSWORD: docker
-    depends_on:
-      - db
-```
-o mesmo arquivo vamos modificar e acrescenatar as configuraçoes de rede:
-```
-version: '3.4'
 
-services:
-  db:
-    image: mysql:5.7.22
-    command: mysqld --default_authentication_plugin=mysql_native_password
-    environment:
-      TZ: America/Sao_Paulo
-      MYSQL_ROOT_PASSWORD: docker
-      MYSQL_USER: docker
-      MYSQL_PASSWORD: docker
-      MYSQL_DATABASE: wordpress
-    ports:
-      - "3308:3306"
-    networks:
-      - wordpress-network
-  wordpress:
-    image: wordpress:latest
-    ports:
-      - 80:80
-    volumes:
-      - ./config/php.conf.uploads.ini:/usr/local/etc/php/conf.d/uploads.ini
-      - ./wp-app:/var/www/html
-    environment:
-      TZ: America/Sao_Paulo
-      WORDPRESS_DB_HOST: db
-      WORDPRESS_DB_NAME: wordpress
-      WORDPRESS_DB_USER: root
-      WORDPRESS_DB_PASSWORD: docker
-    depends_on:
-      - db
-    networks:
-      - wordpress-network
-networks:
-    wordpress-network:
-      driver: bridge
-```
+![Captura de tela de 2024-01-07 13-08-50](https://github.com/AmandaCampoos/Docker/assets/138727208/65666871-e006-424d-8f4f-65a28ec3743a)
+
 vamos salvar o arquivo usando WQ! para salvar
 para executar 
 ```
