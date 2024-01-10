@@ -22,29 +22,40 @@ Wordpress.
 
 # AWS 
 Configurações na console da aws necessárias para essa atividade.
-Primeiro vamos definir grupo de segurança.
+Primeiro vamos configurar grupos de segurança.
 <br/> 
  Instacincias 
-```
-|80| |HTTP| |TCP|	| SG-Público| 
-|22| |SSH | |TCp|	| SG-Público|
-```
+
+80|HTTP| TCP
+TCP| SSH | 22
+HTTP|TCP| 80	
+NFS |	TCP |	2049
 
 RDB
-```  
-3306	MySQL/Aurora	TCP	SG-Privado
-```
+  
+3306	| MySQL/Aurora |	
+ ----| --- 
 ELB
-```
-80	HTTP	TCP	0.0.0.0/0 <br /> 
-22	SSH	TCP	0.0.0.0/0
-````
+
+80 |	HTTP	| TCP	 
+---| ----| --- 
+22	| SSH	 | TCP	
+HTTP	|TCP |	80	
+HTTPS	| TCP|	443	
+ICMP	| Tudo
+
 EFS
-```
-2209	NFS	TCP	SG-Privado
-```
+2209	| NFS	| TCP	S
+---| ----| --- 
 
+RDS
 
+MYSQL/Aurora	|TCP|	3306
+---| ----| --- 
+
+### Load balancers
+Nome: loadbalancer
+- vpc:
 
 
 # Docker
@@ -131,9 +142,7 @@ docker-compose up -d
 logo podemos conferir os arquivos de configuração no nosso diretório criado.
 ![Captura de tela de 2024-01-08 21-58-24](https://github.com/AmandaCampoos/Docker/assets/138727208/e929942e-f3b4-421c-b0a2-a7a48fdaafa5)
 
-# load balancer
-- Nome: loadbalancer
-- vpc: 
+
 
 
 Para olhar os programas rodadando na sua máquina
