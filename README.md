@@ -128,12 +128,12 @@ MYSQL/Aurora	|TCP|	3306
 
 
 ### Load balancers
-Nome: loadbalancer.
+- Nome: loadbalancer.
 - vpc: a mesma usada nas instancias de toda a atividade.
 - zonas disponivéis: us-east-1b (use1-az1) e us-east-1a (use1-az6).
 - Tipo de endereço IP:IPv4.
 - Receptores e regras : Criar um grupo de destino e alocar sua instância.
-- Após a realizão da conecão com a instancia é possivél usar o DNS publíco para acessar através da rede a nossa aplicação.
+- Após a realizão da conexão com a instância é possivél usar o DNS publíco para acessar através da rede a nossa aplicação.
   
 ![Captura de tela de 2024-01-10 09-03-04](https://github.com/AmandaCampoos/Docker/assets/138727208/e78ceee4-ec85-491e-b395-c9635699ae37)
 
@@ -158,7 +158,9 @@ Para a craição:
 - Nome do usuário e senha.
 - Escolher a vpc usada durante a tividade.
 - O grupo de segurança será o mesmo da instãncia e um defult com a porta 3306 caso banco seja o Mysql.
-- As configurações desse banco de dados foram usada no docker-composer para que ele pudesse se comunicar com o wordpress.
+- O endpoint e as configurações acima do banco de dados foram usada no docker-composer para que ele pudesse se comunicar com o wordpress.
+ 
+
   
 ### Auto Scaling
 - Escolher um nome
